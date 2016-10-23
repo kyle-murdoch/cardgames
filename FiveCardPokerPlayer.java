@@ -71,7 +71,7 @@ public class FiveCardPokerPlayer extends Player { // created by kmurdoch @ 1:38p
                 break;
             case 2:
                 int pairCard = 0;
-                for (int i = 0; i < 14; i++) {
+                for (int i = 0; i <= 4; i++) {
                     numArray[(hand.getHand())[i].getNum()]++;                
                 }
                 for (int i = 0; i < 14; i++) {
@@ -80,7 +80,7 @@ public class FiveCardPokerPlayer extends Player { // created by kmurdoch @ 1:38p
                     }
                 }
                 
-                if (pairCard >= 11) {
+                if (pairCard >= 11 || pairCard == 1) {
                     winnings = bet;
                 }
                 else {

@@ -15,23 +15,32 @@ import java.util.*;
 
 public class CardGames { // created 10/07/16 @ 11:56pm by kmurdoch
     public static void main(String args[]) {
-        //playVideoPoker();
+        playVideoPoker();
         //singleHandTest();
         //checkRandomizer();
+        Card card1 = new Card(1, 1);
+        Card card2 = new Card(13, 1);
+        Card card3 = new Card(12, 1);
+        Card card4 = new Card(11, 1);
+        Card card5 = new Card(10, 1);
+        
+        FiveCardPokerHand hand = new FiveCardPokerHand();
+        
     }
     
     public static int playVideoPoker() { // created by kmurdoch @ 1:23pm 10/17/16
         Scanner input = new Scanner(System.in);
-        Deck deck = new Deck();
         FiveCardPokerPlayer player = new FiveCardPokerPlayer();
         boolean exit = false;
         
         while (!exit) {
+            Deck deck = new Deck();
             String action = "null";
             boolean playing = false;
             boolean valid = false;
+            System.out.println("What would you like to do: BET, MAX BET, ADD CREDITS?");
+            System.out.println("Credits: " + player.getCredits());
             while (!valid) {
-                System.out.println("Which would you like to do: BET, MAX BET, ADD CREDITS?");
                 action = input.nextLine();
                 action = action.toUpperCase();
                 if (action.compareTo("BET") == 0 || action.compareTo("MAX BET") == 0 
@@ -42,7 +51,7 @@ public class CardGames { // created 10/07/16 @ 11:56pm by kmurdoch
 
             if (action.compareTo("ADD CREDITS") == 0) {
                 System.out.println("How many credits would you like to add?");
-                System.out.print("==> ");
+                System.out.print("(Credits: " + player.getCredits() + ") ==> ");
                 int numCredits = input.nextInt();
                 player.addCredits(numCredits);
             }
@@ -93,11 +102,20 @@ public class CardGames { // created 10/07/16 @ 11:56pm by kmurdoch
                 System.out.println("How many cards would you like to hold?");
                 hand.printHand();
                 System.out.println();
-                System.out.println(hand.getValueName());
-                
+                player.setWinnings(hand.getValueOfHand(), hand);
+                int winnings = player.getWinnings();
+                if (winnings != 0) {
+                    System.out.println(hand.getValueName());
+                }
+                else {
+                    System.out.println("High Card");
+                }
                 int numHold = input.nextInt();
-                System.out.println("Enter which cards to hold");
-                System.out.println("ex. '1 3 4' will hold cards in position 1, 3, and 4");
+                
+                if (numHold > 0 && numHold <= 5) {
+                    System.out.println("Enter which cards to hold");
+                    System.out.println("ex. '1 3 4' will hold cards in position 1, 3, and 4");
+                }
                 int[] hold = new int[6];
                 for (int i = 0; i < numHold; i++) {
                     hold[input.nextInt()]++;
@@ -109,8 +127,16 @@ public class CardGames { // created 10/07/16 @ 11:56pm by kmurdoch
                 }
                 
                 hand.printHand();
+                player.setWinnings(hand.getValueOfHand(), hand);
+                winnings = player.getWinnings();
+                player.addCredits(winnings);
                 System.out.println();
-                System.out.println(hand.getValueName());
+                if (winnings != 0) {
+                    System.out.println(hand.getValueName() + " | Winnings: " + winnings);
+                }
+                else {
+                    System.out.println("High Card | Winnings: 0");
+                }
             }
         }
         
