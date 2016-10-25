@@ -18,14 +18,6 @@ public class CardGames { // created 10/07/16 @ 11:56pm by kmurdoch
         playVideoPoker();
         //singleHandTest();
         //checkRandomizer();
-        Card card1 = new Card(1, 1);
-        Card card2 = new Card(13, 1);
-        Card card3 = new Card(12, 1);
-        Card card4 = new Card(11, 1);
-        Card card5 = new Card(10, 1);
-        
-        FiveCardPokerHand hand = new FiveCardPokerHand();
-        
     }
     
     public static int playVideoPoker() { // created by kmurdoch @ 1:23pm 10/17/16
@@ -34,15 +26,15 @@ public class CardGames { // created 10/07/16 @ 11:56pm by kmurdoch
         boolean exit = false;
         
         while (!exit) {
-            Deck deck = new Deck();
+            Deck deck = new Deck(); // create deck
             String action = "null";
             boolean playing = false;
             boolean valid = false;
             System.out.println("What would you like to do: BET, MAX BET, ADD CREDITS?");
             System.out.println("Credits: " + player.getCredits());
-            while (!valid) {
+            while (!valid) { // validate input
                 action = input.nextLine();
-                action = action.toUpperCase();
+                action = action.toUpperCase(); // change all user input to upper case
                 if (action.compareTo("BET") == 0 || action.compareTo("MAX BET") == 0 
                         || action.compareTo("ADD CREDITS") == 0 || action.compareTo("EXIT") == 0) {
                     valid = true;
@@ -53,7 +45,12 @@ public class CardGames { // created 10/07/16 @ 11:56pm by kmurdoch
                 System.out.println("How many credits would you like to add?");
                 System.out.print("(Credits: " + player.getCredits() + ") ==> ");
                 int numCredits = input.nextInt();
-                player.addCredits(numCredits);
+                if (numCredits > 0) { // validate input
+                    player.addCredits(numCredits);
+                }
+                else {
+                    System.out.println("INVALID INPUT");
+                }
             }
             else if (action.compareTo("MAX BET") == 0) {
                 if (player.getCredits() >= 5) {
@@ -70,7 +67,7 @@ public class CardGames { // created 10/07/16 @ 11:56pm by kmurdoch
             }
             else if (action.compareTo("BET") == 0) {
                 boolean validBet = false;
-                while (!validBet) {
+                while (!validBet) { // validate input
                     System.out.print("Enter bet (MAX 5) ==> ");
                     int bet = input.nextInt();
                     if (bet > 0 && bet <= 5 && player.getCredits() >= bet) {
@@ -110,7 +107,13 @@ public class CardGames { // created 10/07/16 @ 11:56pm by kmurdoch
                 else {
                     System.out.println("High Card");
                 }
-                int numHold = input.nextInt();
+                int numHold;
+                do { // validate input
+                    numHold = input.nextInt();
+                    if (numHold < 0 || numHold > 5){
+                        System.out.println("Please enter a valid number");
+                    }
+                } while (numHold < 0 || numHold > 5);
                 
                 if (numHold > 0 && numHold <= 5) {
                     System.out.println("Enter which cards to hold");
