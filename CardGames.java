@@ -5,10 +5,6 @@ Main class file for CardGames
 Goal:
 This package will contain the necessary elements to build
 and execute multiple well known card games.
-
-
-Things to add:
-- log file (logs everything that happens)
 */
 package cardgames;
 import java.util.*;
@@ -120,20 +116,26 @@ public class CardGames { // created 10/07/16 @ 11:56pm by kmurdoch
                 int numHold = 0;
                 System.out.print("==> ");
                 
-                do {
-                    if (input.hasNextInt()) { // ensure that the next input is an integer
-                        do { // validate input
-                            numHold = input.nextInt();
-                            if (numHold < 0 || numHold > 5){
-                                System.out.println("Please enter a value from 0 to 5");
-                                System.out.print("==> ");
-                            }
-                        } while (numHold < 0 || numHold > 5);
-                    }
-                    else {
+                boolean validIn = false;
+                while (!validIn) {
+                    try { // try to get a integer from the user
+                        numHold = input.nextInt();
+                        if (numHold < 0 || numHold > 5) {
+                            System.out.println("Enter a value from 0 to 5");
+                            System.out.print("==> ");
+                            validIn = false;
+                        }
+                        else {
+                            validIn = true;
+                        }
+                    } // catch exception if next int is not present
+                    catch (Exception e) {
                         System.out.println("INVALID INPUT");
+                        System.out.print("==>");
+                        String trash = input.nextLine(); // discard harmful data
+                        validIn = false;
                     }
-                } while (!input.hasNextInt());
+                }
                 
                 if (numHold > 0 && numHold <= 5) {
                     System.out.println("Enter the cards you want to hold");
@@ -141,6 +143,7 @@ public class CardGames { // created 10/07/16 @ 11:56pm by kmurdoch
                     System.out.print("==> ");
                 }
                 int[] hold = new int[6]; // create an array with max value possible
+                
                 for (int i = 0; i < numHold; i++) {
                     do {
                         if (input.hasNextInt()) { // validate each card entered
@@ -158,6 +161,7 @@ public class CardGames { // created 10/07/16 @ 11:56pm by kmurdoch
                         }
                     } while (!input.hasNextInt());
                 }
+                
                 for (int i = 0; i < 5; i++) { // replace cards being traded in hand
                     if (hold[i + 1] == 0) {
                         hand.setNewCard(i, deck);
