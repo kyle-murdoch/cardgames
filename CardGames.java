@@ -11,7 +11,10 @@ import java.util.*;
 
 public class CardGames { // created 10/07/16 @ 11:56pm by kmurdoch
     public static void main(String args[]) {
-        playVideoPoker();
+        if (playVideoPoker() == 1) {
+            System.out.println("FATAL ERROR");
+            System.exit(1);
+        }
         //singleHandTest();
         //checkRandomizer();
     }
@@ -83,6 +86,7 @@ public class CardGames { // created 10/07/16 @ 11:56pm by kmurdoch
                 }
             }
             else if (action.compareTo("BET") == 0) {
+                System.out.println(); // space
                 boolean validBet = false;
                 while (!validBet) { // validate input
                     System.out.print("Enter bet (MAX 5) ==> ");
@@ -153,17 +157,18 @@ public class CardGames { // created 10/07/16 @ 11:56pm by kmurdoch
                     try { // try to get a integer from the user
                         numHold = input.nextInt();
                         if (numHold < 0 || numHold > 5) {
+                            String trash = input.nextLine(); // clear line
+                            System.out.println(); // space
                             System.out.println("Enter a value from 0 to 5");
                             System.out.print("==> ");
                             validIn = false;
-                            System.out.println(); // space
                         }
                         else {
                             validIn = true;
                             System.out.println(); // space
                         }
-                    } // catch exception if next int is not present
-                    catch (Exception e) {
+                    }
+                    catch (Exception e) { // catch exception if next int is not present
                         System.out.println("INVALID INPUT");
                         System.out.println(); // space
                         System.out.print("==> ");
@@ -199,7 +204,9 @@ public class CardGames { // created 10/07/16 @ 11:56pm by kmurdoch
                                 throw new Exception(); // throw an exception if conditions are not met
                             }
                         }
-                        System.out.println(); // space
+                        if (numHold != 0) {
+                            System.out.println(); // space    
+                        }
                     }
                     catch (Exception e) {
                         validIn = false;
@@ -212,6 +219,10 @@ public class CardGames { // created 10/07/16 @ 11:56pm by kmurdoch
                         System.out.println(); // space
                         System.out.println("Enter the cards you would like to hold");
                         System.out.print("==> ");
+                    }
+                    
+                    if (numHold == 0) {
+                        validIn = true;
                     }
                 }
                 String trash = input.nextLine();
